@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+
         navHostFragment = supportFragmentManager.findFragmentById(binding.fragmentContainerView.id) as NavHostFragment
         navController = navHostFragment.findNavController()
 
