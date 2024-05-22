@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.muratdayan.weather.R
+import com.muratdayan.weather.core.utils.Constants
 import com.muratdayan.weather.databinding.FragmentHomeBinding
 
 
@@ -20,7 +21,7 @@ class HomeFragment : Fragment() {
     ): View {
         // binding bağlanması
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        binding.textView.setText("home fragment")
+        println(Constants.API_KEY)
 
         return binding.root
     }
@@ -28,7 +29,6 @@ class HomeFragment : Fragment() {
     // fragmentimiz activity üzerinde kaybolduğunda bindingi null yaparız
     override fun onDestroyView() {
         super.onDestroyView()
-        TODO()
         _binding = null
     }
 
