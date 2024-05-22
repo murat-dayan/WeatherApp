@@ -1,7 +1,9 @@
 package com.muratdayan.weather.domain.di
 
 import com.muratdayan.weather.core.utils.Constants
+import com.muratdayan.weather.data.remote.repository.RepositoryImpl
 import com.muratdayan.weather.data.remote.services.IWeatherService
+import com.muratdayan.weather.domain.repository.WeatherRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,6 +28,12 @@ object NetworkModule {
     @Singleton
     fun provideIWeatherService(retrofit: Retrofit): IWeatherService {
         return retrofit.create(IWeatherService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideWeatherRepository(iWeatherService: IWeatherService) : WeatherRepository{
+        return RepositoryImpl(iWeatherService)
     }
 
 
