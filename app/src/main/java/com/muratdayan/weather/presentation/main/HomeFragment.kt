@@ -1,4 +1,4 @@
-package com.muratdayan.weather.presentation.screens
+package com.muratdayan.weather.presentation.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
