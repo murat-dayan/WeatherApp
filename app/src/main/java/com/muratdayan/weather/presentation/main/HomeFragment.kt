@@ -23,6 +23,8 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         println(Constants.API_KEY)
 
+
+
         return binding.root
     }
 
