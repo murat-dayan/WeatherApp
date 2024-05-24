@@ -5,4 +5,7 @@
     <string name="weather">Weather</string>
     <string name="forecasts">Forecasts</string>
     <string name="getStart">Get Start</string>
+    <string name="_19">19°</string>
+    <string name="precipitations">Precipitations</string>
+    <string name="max_24_min_18">Max: 24° Min:18°</string>
 </resources>
