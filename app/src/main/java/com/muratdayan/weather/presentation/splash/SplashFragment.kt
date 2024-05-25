@@ -8,8 +8,9 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.muratdayan.weather.R
 import com.muratdayan.weather.databinding.FragmentSplashBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SplashFragment : Fragment() {
 
     // fragmentlarda binding kullanımı

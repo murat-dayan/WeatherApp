@@ -78,4 +78,10 @@ dependencies {
     // Hilt ve Ksp aracı ile hilt compiler 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+    // location gps service
+    implementation (libs.play.services.location)
+
+    // lifecycle viewmodel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 }
