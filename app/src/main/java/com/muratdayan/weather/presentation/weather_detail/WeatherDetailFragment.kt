@@ -8,8 +8,9 @@ import android.view.ViewGroup
 import com.muratdayan.weather.R
 import com.muratdayan.weather.databinding.FragmentHomeBinding
 import com.muratdayan.weather.databinding.FragmentWeatherDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class WeatherDetailFragment : Fragment() {
 
     // fragmentlarda binding kullanımı

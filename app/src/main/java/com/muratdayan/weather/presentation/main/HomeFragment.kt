@@ -13,18 +13,24 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.registerForActivityResult
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.muratdayan.weather.R
 import com.muratdayan.weather.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     // fragmentlarda binding kullanımı
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var locationRequest: LocationRequest
+    private val homeViewModel: HomeViewModel by viewModels()
 
     private var locationPermissions = arrayOf(
         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -38,7 +44,7 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
 
-        if (checkPermissions()){
+        if (checkPermissions()) {
             getLocation()
         } else {
             requestPermissions()
@@ -48,12 +54,38 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun collectProductState() {
+        lifecycleScope.launch {
+            homeViewModel.currentWeatherState.collectLatest { currentWeatherState ->
+                when {
+                    currentWeatherState.currentWeatherModel != null -> {
+                        val currentModel = currentWeatherState.currentWeatherModel
+                        binding.textViewDegree.setText(currentModel.name)
+                        binding.textViewMaxMin.setText("Max:${currentModel.main.tempMax}  Min:${currentModel.main.tempMin}")
+                    }
+
+                    currentWeatherState.isLoading -> {
+                        Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_SHORT).show()
+                    }
+
+                    else -> {
+
+                        Log.d("failure", "failure ${currentWeatherState.errorMsg}")
+                    }
+                }
+            }
+        }
+    }
+
     // check for permission
     private fun checkPermissions(): Boolean {
         return ActivityCompat.checkSelfPermission(
-            requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(
-            requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
 
         // If we want background location on Android 10.0 and higher, use:
         // ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
@@ -65,20 +97,21 @@ class HomeFragment : Fragment() {
     }
 
     // Permission result
-    private val permissionRequest = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-        val granted = permissions.entries.all {
-            it.value == true
-        }
-        permissions.entries.forEach {
-            Log.e("LOG_TAG", "${it.key} = ${it.value}")
-        }
+    private val permissionRequest =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            val granted = permissions.entries.all {
+                it.value == true
+            }
+            permissions.entries.forEach {
+                Log.e("LOG_TAG", "${it.key} = ${it.value}")
+            }
 
-        if (granted) {
-            getLocation()
-        } else {
-            // your code if permission denied
+            if (granted) {
+                getLocation()
+            } else {
+                // your code if permission denied
+            }
         }
-    }
 
     @SuppressLint("MissingPermission")
     private fun getLocation() {
@@ -91,15 +124,16 @@ class HomeFragment : Fragment() {
 
                 // Konum bilgilerini kullanın
                 Log.d("Konum", "Enlem: $latitude, Boylam: $longitude")
-                Toast.makeText(requireContext(), "Enlem: $latitude, Boylam: $longitude", Toast.LENGTH_SHORT).show()
+
+                homeViewModel.getCurrentWeather(latitude, longitude)
+                collectProductState()
+
             } else {
                 // Konum bilgisi alınamadı
                 Log.w("Konum", "Konum bilgisi alınamadı")
-                Toast.makeText(requireContext(), "Konum bilgisi alınamadı", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
 
 
     // fragmentimiz activity üzerinde kaybolduğunda bindingi null yaparız

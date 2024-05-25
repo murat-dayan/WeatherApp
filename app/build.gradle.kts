@@ -81,4 +81,7 @@ dependencies {
 
     // location gps service
     implementation (libs.play.services.location)
+
+    // lifecycle viewmodel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 }
