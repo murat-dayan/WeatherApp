@@ -22,6 +22,9 @@ class WeatherDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentWeatherDetailBinding.inflate(inflater, container, false)
+
+
+
         return binding.root
     }
 
