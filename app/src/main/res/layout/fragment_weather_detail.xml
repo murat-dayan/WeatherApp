@@ -5,24 +5,4 @@
     android:layout_height="match_parent"
     tools:context=".presentation.weather_detail.WeatherDetailFragment">
 
-
-    <include
-        android:id="@+id/first_row"
-        layout="@layout/forecast_row"/>
-    <include
-        android:id="@+id/first_row"
-        layout="@layout/forecast_row"/>
-    <include
-        android:id="@+id/first_row"
-        layout="@layout/forecast_row"/>
-    <include
-        android:id="@+id/first_row"
-        layout="@layout/forecast_row"/>
-
-
-
-
-
-
-
 </LinearLayout>
