@@ -103,8 +103,12 @@
                     android:layout_height="19dp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/line" />
+
+
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
