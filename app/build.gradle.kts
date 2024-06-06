@@ -14,12 +14,8 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
-        compose = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
 
     defaultConfig {
         applicationId = "com.muratdayan.weather"
@@ -90,14 +86,4 @@ dependencies {
     // lifecycle viewmodel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
-    val composeBom = platform("androidx.compose:compose-bom:2024.01.00")
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
-    implementation (libs.androidx.runtime)
-    implementation (libs.androidx.ui)
-    implementation (libs.androidx.foundation)
-    implementation (libs.androidx.foundation.layout)
-    implementation (libs.androidx.material)
-    implementation (libs.androidx.runtime.livedata)
-    implementation (libs.androidx.ui.tooling)
 }
