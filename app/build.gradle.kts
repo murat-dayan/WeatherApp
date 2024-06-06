@@ -84,4 +84,7 @@ dependencies {
 
     // lifecycle viewmodel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // to implement border to cardview
+    implementation (libs.material.v100)
 }
