@@ -10,4 +10,8 @@
     <string name="max_24_min_18">Max: 24° Min:18°</string>
     <string name="today">Today</string>
     <string name="july_21">July,21</string>
+    <string name="star_icon">star icon</string>
+    <string name="sunrise">SUNRISE</string>
+    <string name="_5_28_am">5:28 AM</string>
+    <string name="sunset_7_25pm">Sunset: 7.25PM</string>
 </resources>
