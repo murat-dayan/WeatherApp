@@ -16,7 +16,6 @@ android {
         buildConfig = true
     }
 
-
     defaultConfig {
         applicationId = "com.muratdayan.weather"
         minSdk = 24
@@ -86,4 +85,6 @@ dependencies {
     // lifecycle viewmodel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
+    // to implement border to cardview
+    implementation (libs.material.v100)
 }
