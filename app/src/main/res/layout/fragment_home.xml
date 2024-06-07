@@ -83,7 +83,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/open_sans_semibold"
+                        android:fontFamily="@font/open_sans_semi_bold"
                         android:textColor="@color/white"
                         android:text="@string/today"/>
 
@@ -93,7 +93,7 @@
                         android:layout_weight="1"
                         android:textAlignment="viewEnd"
                         android:layout_marginEnd="20dp"
-                        android:fontFamily="@font/open_sans_semibold"
+                        android:fontFamily="@font/open_sans_semi_bold"
                         android:textColor="@color/white"
                         android:text="@string/july_21"/>
 
