@@ -8,7 +8,7 @@
         android:font="@font/open_sans_regular" />
     <font
 
-        android:font="@font/open_sans_semibold" />
+        android:font="@font/open_sans_semi_bold" />
     <font
 
         android:font="@font/poppins_medium" />
