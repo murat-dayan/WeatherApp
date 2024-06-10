@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SplashFragment : Fragment() {
 
-    // fragmentlarda binding kullanımı
+    // binding usage in fragment
     private var _binding: FragmentSplashBinding? = null
     private val binding get() = _binding!!
 
@@ -27,8 +27,6 @@ class SplashFragment : Fragment() {
         binding.btnGetStarted.setOnClickListener {
             findNavController().navigate(R.id.navigate_splashFragment_to_homeFragment)
         }
-
-
         return binding.root
     }
 
@@ -36,6 +34,5 @@ class SplashFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 
 }

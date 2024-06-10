@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+// used to handle the business logic related to fetching and managing the current weather data
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getCurrentWeatherUseCase: GetCurrentWeatherUseCase,
@@ -20,8 +21,6 @@ class HomeViewModel @Inject constructor(
     private val _currentWeatherState = MutableStateFlow(CurrentWeatherState())
     val currentWeatherState : StateFlow<CurrentWeatherState>
         get() = _currentWeatherState
-
-
 
     fun getCurrentWeather(lat:Double,lon:Double){
 
@@ -38,8 +37,6 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
-
     }
-
 
 }

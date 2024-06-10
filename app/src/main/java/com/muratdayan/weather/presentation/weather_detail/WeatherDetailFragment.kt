@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class WeatherDetailFragment : Fragment() {
 
-    // fragmentlarda binding kullanımı
+    // binding usage in fragment
     private var _binding: FragmentWeatherDetailBinding? = null
     private val binding get() = _binding!!
 
@@ -23,8 +23,6 @@ class WeatherDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentWeatherDetailBinding.inflate(inflater, container, false)
-
-
 
         return binding.root
     }
