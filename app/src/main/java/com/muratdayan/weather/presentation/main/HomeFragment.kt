@@ -23,10 +23,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+// handle the UI and business logic of the HomeFragment
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    // fragmentlarda binding kullanımı
+    // binding usage in fragment
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var locationRequest: LocationRequest
@@ -40,7 +41,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        // binding bağlanması
+        // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
 
@@ -54,6 +55,7 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    // collect the state of the product from the homeViewModel
     @SuppressLint("SetTextI18n")
     private fun collectProductState() {
         lifecycleScope.launch {
@@ -61,8 +63,8 @@ class HomeFragment : Fragment() {
                 when {
                     currentWeatherState.currentWeatherModel != null -> {
                         val currentModel = currentWeatherState.currentWeatherModel
-                        binding.textViewDegree.setText(currentModel.name)
-                        binding.textViewMaxMin.setText("Max:${currentModel.main.tempMax}  Min:${currentModel.main.tempMin}")
+                        binding.textViewDegree.text = currentModel.name
+                        binding.textViewMaxMin.text = "Max:${currentModel.main.tempMax}  Min:${currentModel.main.tempMin}"
                     }
 
                     currentWeatherState.isLoading -> {
@@ -122,21 +124,21 @@ class HomeFragment : Fragment() {
                 val latitude = location.latitude
                 val longitude = location.longitude
 
-                // Konum bilgilerini kullanın
+                // location info is received
                 Log.d("Konum", "Enlem: $latitude, Boylam: $longitude")
 
                 homeViewModel.getCurrentWeather(latitude, longitude)
                 collectProductState()
 
             } else {
-                // Konum bilgisi alınamadı
+                // location info is not received
                 Log.w("Konum", "Konum bilgisi alınamadı")
             }
         }
     }
 
 
-    // fragmentimiz activity üzerinde kaybolduğunda bindingi null yaparız
+    // if the fragment is destroyed, the binding object is set to null
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
+// This class is responsible for fetching data from the API and converting it to the domain model.
 @ViewModelScoped
 class RepositoryImpl @Inject constructor(
     private val iWeatherService: IWeatherService
@@ -32,6 +33,4 @@ class RepositoryImpl @Inject constructor(
         .catch {
             emit(Resource.Error(it.message.toString()))
         }
-
-
 }

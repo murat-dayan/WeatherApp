@@ -7,7 +7,6 @@ import retrofit2.http.Query
 
 interface IWeatherService {
 
-
     @GET("weather")
     suspend fun getCurrentWeather(
         @Query("lat") lat: Double,
