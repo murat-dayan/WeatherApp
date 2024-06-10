@@ -1,9 +1,12 @@
 package com.muratdayan.weather.data.remote.repository
 
 import com.muratdayan.weather.core.common.Resource
+import com.muratdayan.weather.data.remote.dto.ForecastResponseDto
 import com.muratdayan.weather.data.remote.mappers.toCurrentWeatherModel
+import com.muratdayan.weather.data.remote.mappers.toForecastModel
 import com.muratdayan.weather.data.remote.services.IWeatherService
 import com.muratdayan.weather.domain.models.CurrentWeatherModel
+import com.muratdayan.weather.domain.models.ForecastModel
 import com.muratdayan.weather.domain.repository.WeatherRepository
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +32,18 @@ class RepositoryImpl @Inject constructor(
         val currentWeatherModel = currentWeatherResponseDto.toCurrentWeatherModel()
 
         emit(Resource.Success(currentWeatherModel))
+    }.flowOn(Dispatchers.IO)
+        .catch {
+            emit(Resource.Error(it.message.toString()))
+        }
+
+    override fun getForecastWeather(lat: Double, lon: Double): Flow<Resource<ForecastModel>> = flow {
+        emit(Resource.Loading())
+
+        val forecastResponseDto = iWeatherService.getForecastWeather(lat,lon)
+
+        val forecastModel = forecastResponseDto.toForecastModel()
+        emit(Resource.Success(forecastModel))
     }.flowOn(Dispatchers.IO)
         .catch {
             emit(Resource.Error(it.message.toString()))
