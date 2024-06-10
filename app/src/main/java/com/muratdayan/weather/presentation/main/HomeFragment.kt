@@ -30,7 +30,7 @@ class HomeFragment : Fragment() {
     // binding usage in fragment
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private lateinit var locationRequest: LocationRequest
+//    private lateinit var locationRequest: LocationRequest
     private val homeViewModel: HomeViewModel by viewModels()
 
     private var locationPermissions = arrayOf(
@@ -70,11 +70,27 @@ class HomeFragment : Fragment() {
                     currentWeatherState.isLoading -> {
                         Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_SHORT).show()
                     }
-
                     else -> {
-
                         Log.d("failure", "failure ${currentWeatherState.errorMsg}")
                     }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            homeViewModel.forecastWeatherState.collectLatest { forecastState->
+                when{
+                    forecastState.forecastModel != null->{
+                        val forecastModel = forecastState.forecastModel
+                        binding.infoCardFirstHourRow.infoCardTxtBottomInfo.text = forecastModel.forecastList[1].dtTxt
+
+                    }
+                    forecastState.isLoading -> {
+                        Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        Log.d("failure", "failure ${forecastState.error}")
+                    }
+
                 }
             }
         }
@@ -128,6 +144,7 @@ class HomeFragment : Fragment() {
                 Log.d("Konum", "Enlem: $latitude, Boylam: $longitude")
 
                 homeViewModel.getCurrentWeather(latitude, longitude)
+                homeViewModel.getForecastWeather(lat = latitude, lon = longitude)
                 collectProductState()
 
             } else {

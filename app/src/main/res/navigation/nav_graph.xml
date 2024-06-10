@@ -22,4 +22,9 @@
             app:popUpToInclusive="true"
             />
     </fragment>
+    <fragment
+        android:id="@+id/weatherDetailFragment"
+        android:name="com.muratdayan.weather.presentation.weather_detail.WeatherDetailFragment"
+        android:label="fragment_weather_detail"
+        tools:layout="@layout/fragment_weather_detail" />
 </navigation>
