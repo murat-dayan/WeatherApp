@@ -9,7 +9,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.muratdayan.weather.databinding.FragmentWeatherDetailBinding
+import com.muratdayan.weather.presentation.adapters.DailyForecastAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -28,6 +30,10 @@ class WeatherDetailFragment : Fragment() {
     ): View {
         _binding = FragmentWeatherDetailBinding.inflate(inflater, container, false)
 
+        binding.rvForecasts.setHasFixedSize(true)
+        binding.rvForecasts.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
         weatherDetailViewModel.getDailyForecastWeather(52.52, 13.41)
         collectProductState()
 
@@ -40,7 +46,7 @@ class WeatherDetailFragment : Fragment() {
                 when {
                     dailyModelState.dailymodel != null -> {
                         val dailyModel = dailyModelState.dailymodel
-                        println(dailyModel.temperatures[0])
+                        binding.rvForecasts.adapter = DailyForecastAdapter(dailyModel)
                     }
 
                     dailyModelState.isLoading -> {

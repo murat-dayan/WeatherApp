@@ -5,18 +5,16 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.registerForActivityResult
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.muratdayan.weather.R
 import com.muratdayan.weather.databinding.FragmentHomeBinding
@@ -31,7 +29,8 @@ class HomeFragment : Fragment() {
     // binding usage in fragment
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-//    private lateinit var locationRequest: LocationRequest
+
+    //    private lateinit var locationRequest: LocationRequest
     private val homeViewModel: HomeViewModel by viewModels()
 
     private var locationPermissions = arrayOf(
@@ -69,12 +68,14 @@ class HomeFragment : Fragment() {
                     currentWeatherState.currentWeatherModel != null -> {
                         val currentModel = currentWeatherState.currentWeatherModel
                         binding.textViewDegree.text = currentModel.name
-                        binding.textViewMaxMin.text = "Max:${currentModel.main.tempMax}  Min:${currentModel.main.tempMin}"
+                        binding.textViewMaxMin.text =
+                            "Max:${currentModel.main.tempMax}  Min:${currentModel.main.tempMin}"
                     }
 
                     currentWeatherState.isLoading -> {
                         Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_SHORT).show()
                     }
+
                     else -> {
                         Log.d("failure", "failure ${currentWeatherState.errorMsg}")
                     }
@@ -82,16 +83,19 @@ class HomeFragment : Fragment() {
             }
         }
         lifecycleScope.launch {
-            homeViewModel.forecastWeatherState.collectLatest { forecastState->
-                when{
-                    forecastState.forecastModel != null->{
+            homeViewModel.forecastWeatherState.collectLatest { forecastState ->
+                when {
+                    forecastState.forecastModel != null -> {
                         val forecastModel = forecastState.forecastModel
-                        binding.infoCardFirstHourRow.infoCardTxtBottomInfo.text = forecastModel.forecastList[1].dtTxt
+                        binding.infoCardFirstHourRow.infoCardTxtBottomInfo.text =
+                            forecastModel.forecastList[1].dtTxt
 
                     }
+
                     forecastState.isLoading -> {
                         Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_SHORT).show()
                     }
+
                     else -> {
                         Log.d("failure", "failure ${forecastState.error}")
                     }
