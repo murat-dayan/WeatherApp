@@ -26,7 +26,8 @@ fun CurrentWeatherResponseDto.toCurrentWeatherModel(): CurrentWeatherModel{
         name = name,
         timezone = timezone,
         visibility=visibility,
-        main = main.toMainModel()
+        main = main.toMainModel(),
+        weather = weather.map { it.toWeatherModel() },
     )
 }
 // if the API response will change, it is enough to change the mappers in the data layer and the domain layer will not be affected.
