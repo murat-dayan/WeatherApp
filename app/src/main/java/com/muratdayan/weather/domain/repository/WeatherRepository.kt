@@ -3,6 +3,7 @@ package com.muratdayan.weather.domain.repository
 import com.muratdayan.weather.core.common.Resource
 import com.muratdayan.weather.data.remote.dto.ForecastResponseDto
 import com.muratdayan.weather.domain.models.CurrentWeatherModel
+import com.muratdayan.weather.domain.models.DailyModel
 import com.muratdayan.weather.domain.models.ForecastModel
 import kotlinx.coroutines.flow.Flow
 
@@ -12,4 +13,6 @@ interface WeatherRepository {
     fun getCurrentWeather(lat:Double, lon:Double) : Flow<Resource<CurrentWeatherModel>>
 
     fun getForecastWeather(lat:Double, lon:Double) : Flow<Resource<ForecastModel>>
+
+    fun getDailyForecastWeather(lat:Double, lon:Double) : Flow<Resource<DailyModel>>
 }

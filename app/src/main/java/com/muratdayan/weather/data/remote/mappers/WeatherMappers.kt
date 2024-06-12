@@ -2,12 +2,14 @@ package com.muratdayan.weather.data.remote.mappers
 
 import com.muratdayan.weather.data.remote.dto.CityDto
 import com.muratdayan.weather.data.remote.dto.CurrentWeatherResponseDto
+import com.muratdayan.weather.data.remote.dto.DailyDto
 import com.muratdayan.weather.data.remote.dto.ForecastListDto
 import com.muratdayan.weather.data.remote.dto.ForecastResponseDto
 import com.muratdayan.weather.data.remote.dto.MainDto
 import com.muratdayan.weather.data.remote.dto.WeatherDto
 import com.muratdayan.weather.domain.models.CityForecastModel
 import com.muratdayan.weather.domain.models.CurrentWeatherModel
+import com.muratdayan.weather.domain.models.DailyModel
 import com.muratdayan.weather.domain.models.ForecastModel
 import com.muratdayan.weather.domain.models.ListForecastModel
 import com.muratdayan.weather.domain.models.MainModel
@@ -78,5 +80,12 @@ fun ForecastResponseDto.toForecastModel() : ForecastModel{
         city = city.toCityForecastModel(),
         forecastList = list.map { it.toListForecastModel() }
 
+    )
+}
+
+fun DailyDto.toDailyModel(): DailyModel {
+    return  DailyModel(
+        temperatures = temperature_2m_max,
+        time = time
     )
 }

@@ -6,7 +6,7 @@ import com.muratdayan.weather.data.remote.dto.ForecastResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface IWeatherService {
+interface OpenWeatherService {
 
     @GET("weather")
     suspend fun getCurrentWeather(

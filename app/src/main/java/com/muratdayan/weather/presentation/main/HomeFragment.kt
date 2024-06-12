@@ -15,6 +15,7 @@ import androidx.activity.result.registerForActivityResult
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.muratdayan.weather.R
@@ -51,6 +52,10 @@ class HomeFragment : Fragment() {
             requestPermissions()
         }
 
+
+        binding.btnGoToDetail.setOnClickListener {
+            findNavController().navigate(R.id.navigate_homeFragment_to_weatherDetailFragment)
+        }
 
         return binding.root
     }
