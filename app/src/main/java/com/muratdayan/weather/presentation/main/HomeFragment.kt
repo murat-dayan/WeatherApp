@@ -21,6 +21,7 @@ import com.muratdayan.weather.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 // handle the UI and business logic of the HomeFragment
 @AndroidEntryPoint
@@ -59,6 +60,11 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    fun getTimeFromDateTime(dateTime: String): String {
+        // Verilen stringin saat kısmını çıkarmak için substring kullanıyoruz
+        return dateTime.substring(11, 16)
+    }
+
     // collect the state of the product from the homeViewModel
     @SuppressLint("SetTextI18n")
     private fun collectProductState() {
@@ -87,8 +93,26 @@ class HomeFragment : Fragment() {
                 when {
                     forecastState.forecastModel != null -> {
                         val forecastModel = forecastState.forecastModel
-                        binding.infoCardFirstHourRow.infoCardTxtBottomInfo.text =
-                            forecastModel.forecastList[1].dtTxt
+                        val firstHour = getTimeFromDateTime(forecastModel.forecastList[0].dtTxt)
+                        val secondHour = getTimeFromDateTime(forecastModel.forecastList[1].dtTxt)
+                        val thirdHour = getTimeFromDateTime(forecastModel.forecastList[2].dtTxt)
+                        val fourthHour = getTimeFromDateTime(forecastModel.forecastList[3].dtTxt)
+                        binding.infoCardFirstHourRow.infoCardTxtBottomInfo.text = firstHour
+                        binding.infoCardSecondHourRow.infoCardTxtBottomInfo.text = secondHour
+                        binding.infoCardThirdHourRow.infoCardTxtBottomInfo.text = thirdHour
+                        binding.infoCardFourthHourRow.infoCardTxtBottomInfo.text = fourthHour
+
+                        val firstHourTemp = "${forecastModel.forecastList[0].main.temp.roundToInt()}°C"
+                        val secondHourTemp = "${forecastModel.forecastList[1].main.temp.roundToInt()}°C"
+                        val thirdHourTemp = "${forecastModel.forecastList[2].main.temp.roundToInt()}°C"
+                        val fourthHourTemp = "${forecastModel.forecastList[3].main.temp.roundToInt()}°C"
+
+                        binding.infoCardFirstHourRow.infoCardTxtTopInfo.text = firstHourTemp
+                        binding.infoCardSecondHourRow.infoCardTxtTopInfo.text = secondHourTemp
+                        binding.infoCardThirdHourRow.infoCardTxtTopInfo.text = thirdHourTemp
+                        binding.infoCardFourthHourRow.infoCardTxtTopInfo.text = fourthHourTemp
+
+
 
                     }
 
