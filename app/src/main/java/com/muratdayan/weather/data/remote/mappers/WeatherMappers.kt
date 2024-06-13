@@ -87,6 +87,7 @@ fun ForecastResponseDto.toForecastModel() : ForecastModel{
 fun DailyDto.toDailyModel(): DailyModel {
     return  DailyModel(
         temperatures = temperature_2m_max,
-        time = time
+        time = time,
+        uv_index_max = uv_index_max
     )
 }

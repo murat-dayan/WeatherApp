@@ -10,7 +10,7 @@ interface OpenMeteoService {
     suspend fun getDailyForecastWeather(
         @Query("latitude") lat:Double,
         @Query("longitude") lon:Double,
-        @Query("daily") daily:String = "temperature_2m_max",
+        @Query("daily") daily:String = "temperature_2m_max,uv_index_max",
         @Query("timezone") timezone:String = "auto"
     ) : DailyForecastResponseDto
 }

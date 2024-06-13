@@ -20,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.LocationServices
 import com.muratdayan.weather.R
+import com.muratdayan.weather.core.utils.checkWeatherforImage
 import com.muratdayan.weather.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -62,9 +63,7 @@ class HomeFragment : Fragment() {
         }
 
 
-        binding.btnGoToDetail.setOnClickListener {
-            findNavController().navigate(R.id.navigate_homeFragment_to_weatherDetailFragment)
-        }
+
 
         return binding.root
     }
@@ -107,6 +106,10 @@ class HomeFragment : Fragment() {
                             currentModel.weather.first().description
                         val date = getMonthAndDayFromTimestamp(currentModel.dt)
                         binding.txtViewTodayDate.text = date
+
+                        currentModel.weather.forEach {
+                            binding.imageViewWeather.setImageResource(it.checkWeatherforImage())
+                        }
                     }
 
                     currentWeatherState.isLoading -> {
@@ -124,6 +127,7 @@ class HomeFragment : Fragment() {
                 when {
                     forecastState.forecastModel != null -> {
                         val forecastModel = forecastState.forecastModel
+
                         val firstHour = getTimeFromDateTime(forecastModel.forecastList[0].dtTxt)
                         val secondHour = getTimeFromDateTime(forecastModel.forecastList[1].dtTxt)
                         val thirdHour = getTimeFromDateTime(forecastModel.forecastList[2].dtTxt)
@@ -147,7 +151,19 @@ class HomeFragment : Fragment() {
                         binding.infoCardThirdHourRow.infoCardTxtTopInfo.text = thirdHourTemp
                         binding.infoCardFourthHourRow.infoCardTxtTopInfo.text = fourthHourTemp
 
+                        forecastModel.forecastList.forEach {
+                            it.weatherList.forEach {
+                                binding.infoCardFirstHourRow.imageView2.setImageResource(it.checkWeatherforImage())
+                                binding.infoCardSecondHourRow.imageView2.setImageResource(it.checkWeatherforImage())
+                                binding.infoCardThirdHourRow.imageView2.setImageResource(it.checkWeatherforImage())
+                                binding.infoCardFourthHourRow.imageView2.setImageResource(it.checkWeatherforImage())
+                            }
+                        }
 
+                        binding.btnGoToDetail.setOnClickListener {
+                            val action = HomeFragmentDirections.navigateHomeFragmentToWeatherDetailFragment(forecastModel)
+                            findNavController().navigate(action)
+                        }
 
                     }
 
