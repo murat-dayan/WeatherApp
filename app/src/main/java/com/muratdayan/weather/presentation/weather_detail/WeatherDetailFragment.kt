@@ -1,5 +1,6 @@
 package com.muratdayan.weather.presentation.weather_detail
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -18,9 +19,9 @@ import com.muratdayan.weather.presentation.adapters.DailyForecastAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.time.LocalDate
+import java.time.Instant
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.time.format.TextStyle
 import java.util.Locale
 
 @AndroidEntryPoint
@@ -33,6 +34,9 @@ class WeatherDetailFragment : Fragment() {
     private val weatherDetailViewModel: WeatherDetailViewModel by viewModels()
 
     private var forecastModel: ForecastModel? = null
+
+    @SuppressLint("SetTextI18n")
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,7 +44,7 @@ class WeatherDetailFragment : Fragment() {
         _binding = FragmentWeatherDetailBinding.inflate(inflater, container, false)
 
         binding.detailCardUvIndex.textViewSunrise.text = "UV INDEX"
-
+        binding.detailCardUvIndex.textViewSunsetTime.text = "Moderate"
 
         binding.rvForecasts.setHasFixedSize(true)
         binding.rvForecasts.layoutManager =
@@ -54,12 +58,23 @@ class WeatherDetailFragment : Fragment() {
 
             forecastModel?.let {
                 binding.txtViewLocalArea.text = it.city.name
+                binding.detailCardSunrise.textViewSunriseTime.text =
+                    unixTimestampToTimeString(it.city.sunrise)
+                binding.detailCardSunrise.textViewSunsetTime.text =
+                    "Sunset: ${unixTimestampToTimeString(it.city.sunset)}"
             }
         }
 
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun unixTimestampToTimeString(timestamp: Long): String {
+        val instant = Instant.ofEpochSecond(timestamp)
+        val formatter = DateTimeFormatter.ofPattern("h:mm a", Locale.ENGLISH)
+            .withZone(ZoneId.systemDefault())
+        return formatter.format(instant)
+    }
 
 
     private fun collectProductState() {
@@ -70,10 +85,13 @@ class WeatherDetailFragment : Fragment() {
                         val dailyModel = dailyModelState.dailymodel
                         println(dailyModel.time[0])
                         forecastModel?.let {
-                            binding.rvForecasts.adapter = DailyForecastAdapter(dailyModel,
+                            binding.rvForecasts.adapter = DailyForecastAdapter(
+                                dailyModel,
                                 forecastModel!!
                             )
                         }
+
+                        binding.detailCardUvIndex.textViewSunriseTime.text = dailyModel.uv_index_max[0].toString()
 
                     }
 
