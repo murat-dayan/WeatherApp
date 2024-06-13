@@ -7,15 +7,18 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.muratdayan.weather.R
+import com.muratdayan.weather.core.utils.checkWeatherforImage
 import com.muratdayan.weather.databinding.ForecastRowBinding
 import com.muratdayan.weather.domain.models.DailyModel
+import com.muratdayan.weather.domain.models.ForecastModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 
 class DailyForecastAdapter(
-    private val dailyModel: DailyModel
+    private val dailyModel: DailyModel,
+    private val forecastModel: ForecastModel
 ) : RecyclerView.Adapter<DailyForecastAdapter.ForecastRowHolder>() {
 
 
@@ -41,6 +44,12 @@ class DailyForecastAdapter(
 
         holder.binding.forecastRowInfoCard.infoCardTxtTopInfo.text = temperature.toString()
         holder.binding.forecastRowInfoCard.infoCardTxtBottomInfo.text = day
+
+        forecastModel.forecastList.forEach {
+            it.weatherList.forEach {
+                holder.binding.forecastRowInfoCard.imageView2.setImageResource(it.checkWeatherforImage())
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

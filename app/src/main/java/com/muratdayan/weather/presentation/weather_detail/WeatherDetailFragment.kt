@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.muratdayan.weather.databinding.FragmentWeatherDetailBinding
+import com.muratdayan.weather.domain.models.ForecastModel
 import com.muratdayan.weather.presentation.adapters.DailyForecastAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -30,11 +31,16 @@ class WeatherDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val weatherDetailViewModel: WeatherDetailViewModel by viewModels()
+
+    private var forecastModel: ForecastModel? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentWeatherDetailBinding.inflate(inflater, container, false)
+
+        binding.detailCardUvIndex.textViewSunrise.text = "UV INDEX"
+
 
         binding.rvForecasts.setHasFixedSize(true)
         binding.rvForecasts.layoutManager =
@@ -42,6 +48,14 @@ class WeatherDetailFragment : Fragment() {
 
         weatherDetailViewModel.getDailyForecastWeather(52.52, 13.41)
         collectProductState()
+
+        arguments?.let {
+            forecastModel = WeatherDetailFragmentArgs.fromBundle(it).forecastModel
+
+            forecastModel?.let {
+                binding.txtViewLocalArea.text = it.city.name
+            }
+        }
 
         return binding.root
     }
@@ -55,7 +69,12 @@ class WeatherDetailFragment : Fragment() {
                     dailyModelState.dailymodel != null -> {
                         val dailyModel = dailyModelState.dailymodel
                         println(dailyModel.time[0])
-                        binding.rvForecasts.adapter = DailyForecastAdapter(dailyModel)
+                        forecastModel?.let {
+                            binding.rvForecasts.adapter = DailyForecastAdapter(dailyModel,
+                                forecastModel!!
+                            )
+                        }
+
                     }
 
                     dailyModelState.isLoading -> {

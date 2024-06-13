@@ -63,9 +63,7 @@ class HomeFragment : Fragment() {
         }
 
 
-        binding.btnGoToDetail.setOnClickListener {
-            findNavController().navigate(R.id.navigate_homeFragment_to_weatherDetailFragment)
-        }
+
 
         return binding.root
     }
@@ -162,7 +160,10 @@ class HomeFragment : Fragment() {
                             }
                         }
 
-
+                        binding.btnGoToDetail.setOnClickListener {
+                            val action = HomeFragmentDirections.navigateHomeFragmentToWeatherDetailFragment(forecastModel)
+                            findNavController().navigate(action)
+                        }
 
                     }
 
