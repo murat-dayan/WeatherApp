@@ -3,34 +3,44 @@ package com.muratdayan.weather.presentation.main
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.registerForActivityResult
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.google.android.gms.location.LocationRequest
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.LocationServices
 import com.muratdayan.weather.R
 import com.muratdayan.weather.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.format.TextStyle
+import java.time.temporal.ChronoField
+import java.util.Locale
+import kotlin.math.roundToInt
 
 // handle the UI and business logic of the HomeFragment
 @AndroidEntryPoint
+@RequiresApi(Build.VERSION_CODES.O)
 class HomeFragment : Fragment() {
 
     // binding usage in fragment
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-//    private lateinit var locationRequest: LocationRequest
+
+    //    private lateinit var locationRequest: LocationRequest
     private val homeViewModel: HomeViewModel by viewModels()
 
     private var locationPermissions = arrayOf(
@@ -52,10 +62,36 @@ class HomeFragment : Fragment() {
         }
 
 
+        binding.btnGoToDetail.setOnClickListener {
+            findNavController().navigate(R.id.navigate_homeFragment_to_weatherDetailFragment)
+        }
+
         return binding.root
     }
 
+    fun getTimeFromDateTime(dateTime: String): String {
+        // Verilen stringin saat kısmını çıkarmak için substring kullanıyoruz
+        return dateTime.substring(11, 16)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getMonthAndDayFromTimestamp(timestamp: Long): String {
+        // Unix zaman damgasını LocalDateTime nesnesine çeviriyoruz
+        val dateTime = LocalDateTime.ofInstant(
+            Instant.ofEpochSecond(timestamp),
+            java.time.ZoneId.systemDefault()
+        )
+
+        // Ay ismini ve günü alıyoruz (Örneğin: "July, 12")
+        val month = dateTime.month.getDisplayName(TextStyle.FULL, Locale.ENGLISH)
+        val day = dateTime.get(ChronoField.DAY_OF_MONTH)
+
+        // İngilizce olarak formatlıyoruz
+        return "$month, $day"
+    }
+
     // collect the state of the product from the homeViewModel
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     private fun collectProductState() {
         lifecycleScope.launch {
@@ -64,12 +100,19 @@ class HomeFragment : Fragment() {
                     currentWeatherState.currentWeatherModel != null -> {
                         val currentModel = currentWeatherState.currentWeatherModel
                         binding.textViewDegree.text = currentModel.name
-                        binding.textViewMaxMin.text = "Max:${currentModel.main.tempMax}  Min:${currentModel.main.tempMin}"
+                        binding.textViewMaxMin.text =
+                            "Max:${currentModel.main.tempMax}  Min:${currentModel.main.tempMin}"
+
+                        binding.textViewPrecipitations.text =
+                            currentModel.weather.first().description
+                        val date = getMonthAndDayFromTimestamp(currentModel.dt)
+                        binding.txtViewTodayDate.text = date
                     }
 
                     currentWeatherState.isLoading -> {
                         Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_SHORT).show()
                     }
+
                     else -> {
                         Log.d("failure", "failure ${currentWeatherState.errorMsg}")
                     }
@@ -77,16 +120,41 @@ class HomeFragment : Fragment() {
             }
         }
         lifecycleScope.launch {
-            homeViewModel.forecastWeatherState.collectLatest { forecastState->
-                when{
-                    forecastState.forecastModel != null->{
+            homeViewModel.forecastWeatherState.collectLatest { forecastState ->
+                when {
+                    forecastState.forecastModel != null -> {
                         val forecastModel = forecastState.forecastModel
-                        binding.infoCardFirstHourRow.infoCardTxtBottomInfo.text = forecastModel.forecastList[1].dtTxt
+                        val firstHour = getTimeFromDateTime(forecastModel.forecastList[0].dtTxt)
+                        val secondHour = getTimeFromDateTime(forecastModel.forecastList[1].dtTxt)
+                        val thirdHour = getTimeFromDateTime(forecastModel.forecastList[2].dtTxt)
+                        val fourthHour = getTimeFromDateTime(forecastModel.forecastList[3].dtTxt)
+                        binding.infoCardFirstHourRow.infoCardTxtBottomInfo.text = firstHour
+                        binding.infoCardSecondHourRow.infoCardTxtBottomInfo.text = secondHour
+                        binding.infoCardThirdHourRow.infoCardTxtBottomInfo.text = thirdHour
+                        binding.infoCardFourthHourRow.infoCardTxtBottomInfo.text = fourthHour
+
+                        val firstHourTemp =
+                            "${forecastModel.forecastList[0].main.temp.roundToInt()}°C"
+                        val secondHourTemp =
+                            "${forecastModel.forecastList[1].main.temp.roundToInt()}°C"
+                        val thirdHourTemp =
+                            "${forecastModel.forecastList[2].main.temp.roundToInt()}°C"
+                        val fourthHourTemp =
+                            "${forecastModel.forecastList[3].main.temp.roundToInt()}°C"
+
+                        binding.infoCardFirstHourRow.infoCardTxtTopInfo.text = firstHourTemp
+                        binding.infoCardSecondHourRow.infoCardTxtTopInfo.text = secondHourTemp
+                        binding.infoCardThirdHourRow.infoCardTxtTopInfo.text = thirdHourTemp
+                        binding.infoCardFourthHourRow.infoCardTxtTopInfo.text = fourthHourTemp
+
+
 
                     }
+
                     forecastState.isLoading -> {
                         Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_SHORT).show()
                     }
+
                     else -> {
                         Log.d("failure", "failure ${forecastState.error}")
                     }
@@ -115,6 +183,7 @@ class HomeFragment : Fragment() {
     }
 
     // Permission result
+
     private val permissionRequest =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             val granted = permissions.entries.all {
@@ -131,6 +200,7 @@ class HomeFragment : Fragment() {
             }
         }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("MissingPermission")
     private fun getLocation() {
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())

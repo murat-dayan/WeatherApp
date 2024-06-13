@@ -5,7 +5,7 @@ data class CurrentWeatherResponseDto(
     val clouds: CloudsDto,
     val cod: Int,
     val coord: CoordDto,
-    val dt: Int,
+    val dt: Long,
     val id: Int,
     val main: MainDto,
     val name: String,
