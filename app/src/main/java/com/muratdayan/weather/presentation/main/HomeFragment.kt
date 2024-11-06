@@ -37,7 +37,6 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    //    private lateinit var locationRequest: LocationRequest
     private val homeViewModel: HomeViewModel by viewModels()
 
     private val permissionLauncher = registerForActivityResult(
@@ -56,22 +55,14 @@ class HomeFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-/*
-
-        if (checkPermissions()) {
-            getLocation()
-        } else {
-            requestPermissions()
-        }
-*/
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         checkAndRequestPermissions()
-        //observeLocationUpdates()
         collectProductState()
-
-
-        return binding.root
     }
 
     private fun checkAndRequestPermissions() {
@@ -112,6 +103,4 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }
