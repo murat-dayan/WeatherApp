@@ -1,9 +1,9 @@
 package com.muratdayan.weather.core.utils
 
 import com.muratdayan.weather.R
-import com.muratdayan.weather.domain.models.WeatherModel
 
 
+/*
 fun WeatherModel.checkWeatherforImage() : Int{
     val iconResource = when(this.description){
         "clear sky" -> R.drawable.ic_sun
@@ -16,4 +16,4 @@ fun WeatherModel.checkWeatherforImage() : Int{
     }
 
     return iconResource
-}
+}*/

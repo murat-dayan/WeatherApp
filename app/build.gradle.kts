@@ -1,41 +1,25 @@
-import java.util.Properties
-
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.kotlinAndroidKsp)
     alias(libs.plugins.hiltAndroid)
-    id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
     namespace = "com.muratdayan.weather"
-    compileSdk = 34
+    compileSdk = 35
 
     buildFeatures {
         viewBinding = true
-        buildConfig = true
     }
 
     defaultConfig {
         applicationId = "com.muratdayan.weather"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
-        val keyStoreFile = project.rootProject.file("apikeys.properties")
-        val properties = Properties()
-        properties.load(keyStoreFile.inputStream())
-
-        val apiKey = properties.getProperty("API_KEY")?:""
-
-        buildConfigField(
-            type = "String",
-            name = "API_KEY",
-            value = apiKey
-        )
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -76,9 +60,9 @@ dependencies {
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
 
-    // Hilt ve Ksp aracı ile hilt compiler 
+    // Hilt ve Kapt aracı ile hilt compiler
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     // location gps service
     implementation (libs.play.services.location)

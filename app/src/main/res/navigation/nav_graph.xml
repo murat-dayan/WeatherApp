@@ -30,11 +30,5 @@
         android:id="@+id/weatherDetailFragment"
         android:name="com.muratdayan.weather.presentation.weather_detail.WeatherDetailFragment"
         android:label="fragment_weather_detail"
-        tools:layout="@layout/fragment_weather_detail" >
-        <argument
-            android:name="forecastModel"
-            app:argType="com.muratdayan.weather.domain.models.ForecastModel"
-            app:nullable="true"
-            android:defaultValue="@null" />
-    </fragment>
+        tools:layout="@layout/fragment_weather_detail" />
 </navigation>

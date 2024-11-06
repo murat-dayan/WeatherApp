@@ -3,12 +3,9 @@ package com.muratdayan.weather.data.remote.repository
 import com.muratdayan.weather.core.common.Resource
 import com.muratdayan.weather.data.remote.mappers.toCurrentWeatherModel
 import com.muratdayan.weather.data.remote.mappers.toDailyModel
-import com.muratdayan.weather.data.remote.mappers.toForecastModel
 import com.muratdayan.weather.data.remote.services.OpenMeteoService
-import com.muratdayan.weather.data.remote.services.OpenWeatherService
 import com.muratdayan.weather.domain.models.CurrentWeatherModel
 import com.muratdayan.weather.domain.models.DailyModel
-import com.muratdayan.weather.domain.models.ForecastModel
 import com.muratdayan.weather.domain.repository.WeatherRepository
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.Dispatchers
@@ -21,37 +18,9 @@ import javax.inject.Inject
 // This class is responsible for fetching data from the API and converting it to the domain model.
 @ViewModelScoped
 class RepositoryImpl @Inject constructor(
-    private val openWeatherService: OpenWeatherService,
     private val openMeteoService: OpenMeteoService
 ) : WeatherRepository {
-    override fun getCurrentWeather(
-        lat: Double,
-        lon: Double
-    ): Flow<Resource<CurrentWeatherModel>> = flow {
-        emit(Resource.Loading())
 
-        val currentWeatherResponseDto = openWeatherService.getCurrentWeather(lat, lon)
-
-        val currentWeatherModel = currentWeatherResponseDto.toCurrentWeatherModel()
-
-        emit(Resource.Success(currentWeatherModel))
-    }.flowOn(Dispatchers.IO)
-        .catch {
-            emit(Resource.Error(it.message.toString()))
-        }
-
-    override fun getForecastWeather(lat: Double, lon: Double): Flow<Resource<ForecastModel>> =
-        flow {
-            emit(Resource.Loading())
-
-            val forecastResponseDto = openWeatherService.getForecastWeather(lat, lon)
-
-            val forecastModel = forecastResponseDto.toForecastModel()
-            emit(Resource.Success(forecastModel))
-        }.flowOn(Dispatchers.IO)
-            .catch {
-                emit(Resource.Error(it.message.toString()))
-            }
 
     override fun getDailyForecastWeather(lat: Double, lon: Double): Flow<Resource<DailyModel>> =
         flow {
@@ -64,5 +33,21 @@ class RepositoryImpl @Inject constructor(
         }.flowOn(Dispatchers.IO)
             .catch {
                 emit(Resource.Error(it.message.toString()))
+        }
+
+    override fun getCurrentAndHourlyWeather(
+        lat: Double,
+        lon: Double
+    ): Flow<Resource<CurrentWeatherModel>> = flow {
+        emit(Resource.Loading())
+
+        val currentWeatherRespondDto = openMeteoService.getCurrentAndHourlyWeather(lat, lon)
+
+        val currentWeatherModel = currentWeatherRespondDto.toCurrentWeatherModel()
+        emit(Resource.Success(currentWeatherModel))
+
+    }.flowOn(Dispatchers.IO)
+        .catch {
+            emit(Resource.Error(it.message.toString()))
         }
 }
