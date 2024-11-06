@@ -3,8 +3,7 @@ package com.muratdayan.weather.presentation.main
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,11 +18,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.format.TextStyle
-import java.time.temporal.ChronoField
-import java.util.Locale
 import javax.inject.Inject
 
 // used to handle the business logic related to fetching and managing the current weather data
@@ -62,6 +56,7 @@ class HomeViewModel @Inject constructor(
             fusedLocationClient.lastLocation.addOnSuccessListener { location->
                 location?.let {
                     _locationState.value = Pair(it.latitude,it.longitude)
+                    Log.i("HomeViewModel","${it.latitude} - ${it.longitude}")
                     getCurrentAndHourlyForecast(it.latitude,it.longitude)
                 }
             }
@@ -70,7 +65,7 @@ class HomeViewModel @Inject constructor(
 
 
 
-    fun getCurrentAndHourlyForecast(lat: Double, lon: Double) {
+    private fun getCurrentAndHourlyForecast(lat: Double, lon: Double) {
         viewModelScope.launch {
             getCurrentAndHourlyForecastUseCase.invoke(lat = lat, lon = lon).onEach { result ->
                 _currentForecastState.value = result
