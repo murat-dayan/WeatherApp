@@ -40,10 +40,16 @@ class HomeFragment : Fragment() {
     //    private lateinit var locationRequest: LocationRequest
     private val homeViewModel: HomeViewModel by viewModels()
 
-    private var locationPermissions = arrayOf(
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION
-    )
+    private val permissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ){permissions->
+        val allGranted = permissions.values.all { it }
+        if (allGranted){
+            homeViewModel.requestLocation(requireContext())
+        }else{
+            Toast.makeText(requireContext(),"Permission denied",Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -51,43 +57,33 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+/*
 
         if (checkPermissions()) {
             getLocation()
         } else {
             requestPermissions()
         }
+*/
 
-
+        checkAndRequestPermissions()
+        //observeLocationUpdates()
+        collectProductState()
 
 
         return binding.root
     }
 
-    fun getTimeFromDateTime(dateTime: String): String {
-        // Verilen stringin saat kısmını çıkarmak için substring kullanıyoruz
-        return dateTime.substring(11, 16)
+    private fun checkAndRequestPermissions() {
+        if (homeViewModel.checkLocationPermissions(requireContext())) {
+            homeViewModel.requestLocation(requireContext())
+        } else {
+            permissionLauncher.launch(
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
+            )
+        }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun getMonthAndDayFromTimestamp(timestamp: Long): String {
-        // Unix zaman damgasını LocalDateTime nesnesine çeviriyoruz
-        val dateTime = LocalDateTime.ofInstant(
-            Instant.ofEpochSecond(timestamp),
-            java.time.ZoneId.systemDefault()
-        )
-
-        // Ay ismini ve günü alıyoruz (Örneğin: "July, 12")
-        val month = dateTime.month.getDisplayName(TextStyle.FULL, Locale.ENGLISH)
-        val day = dateTime.get(ChronoField.DAY_OF_MONTH)
-
-        // İngilizce olarak formatlıyoruz
-        return "$month, $day"
-    }
-
-    // collect the state of the product from the homeViewModel
-    @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("SetTextI18n")
     private fun collectProductState() {
 
         lifecycleScope.launch {
@@ -108,65 +104,6 @@ class HomeFragment : Fragment() {
             }
         }
 
-    }
-
-    // check for permission
-    private fun checkPermissions(): Boolean {
-        return ActivityCompat.checkSelfPermission(
-            requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(
-            requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-
-        // If we want background location on Android 10.0 and higher, use:
-        // ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
-    }
-
-    // request for permissions
-    private fun requestPermissions() {
-        permissionRequest.launch(locationPermissions)
-    }
-
-// Permission result
-
-    private val permissionRequest =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-            val granted = permissions.entries.all {
-                it.value == true
-            }
-            permissions.entries.forEach {
-                Log.e("LOG_TAG", "${it.key} = ${it.value}")
-            }
-
-            if (granted) {
-                getLocation()
-            } else {
-                // your code if permission denied
-            }
-        }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("MissingPermission")
-    private fun getLocation() {
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
-        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            if (location != null) {
-                val latitude = location.latitude
-                val longitude = location.longitude
-
-                // location info is received
-                Log.d("Konum", "Enlem: $latitude, Boylam: $longitude")
-
-                homeViewModel.getCurrentAndHourlyForecast(lat = latitude, lon = longitude)
-                collectProductState()
-
-            } else {
-                // location info is not received
-                Log.w("Konum", "Konum bilgisi alınamadı")
-            }
-        }
     }
 
 
