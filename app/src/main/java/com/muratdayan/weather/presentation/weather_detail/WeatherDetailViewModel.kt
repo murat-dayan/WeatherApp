@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.muratdayan.weather.core.common.Resource
 import com.muratdayan.weather.domain.use_cases.GetDailyForecastUseCase
-import com.muratdayan.weather.presentation.main.ForecastWeatherState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -35,6 +34,8 @@ class WeatherDetailViewModel @Inject constructor(
                 is Resource.Success -> {
                     _dailyModelState.value = DailyWeatherState(dailymodel = resource.data)
                 }
+
+                is Resource.Idle -> {}
             }
         }.launchIn(viewModelScope)
     }

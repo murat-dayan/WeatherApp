@@ -14,7 +14,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.muratdayan.weather.databinding.FragmentWeatherDetailBinding
-import com.muratdayan.weather.domain.models.ForecastModel
 import com.muratdayan.weather.presentation.adapters.DailyForecastAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -33,7 +32,6 @@ class WeatherDetailFragment : Fragment() {
 
     private val weatherDetailViewModel: WeatherDetailViewModel by viewModels()
 
-    private var forecastModel: ForecastModel? = null
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -54,7 +52,7 @@ class WeatherDetailFragment : Fragment() {
         collectProductState()
 
         arguments?.let {
-            forecastModel = WeatherDetailFragmentArgs.fromBundle(it).forecastModel
+            /*forecastModel = WeatherDetailFragmentArgs.fromBundle(it).forecastModel
 
             forecastModel?.let {
                 binding.txtViewLocalArea.text = it.city.name
@@ -62,7 +60,7 @@ class WeatherDetailFragment : Fragment() {
                     unixTimestampToTimeString(it.city.sunrise)
                 binding.detailCardSunrise.textViewSunsetTime.text =
                     "Sunset: ${unixTimestampToTimeString(it.city.sunset)}"
-            }
+            }*/
         }
 
         return binding.root
@@ -84,12 +82,12 @@ class WeatherDetailFragment : Fragment() {
                     dailyModelState.dailymodel != null -> {
                         val dailyModel = dailyModelState.dailymodel
                         println(dailyModel.time[0])
-                        forecastModel?.let {
+                        /*forecastModel?.let {
                             binding.rvForecasts.adapter = DailyForecastAdapter(
                                 dailyModel,
                                 forecastModel!!
                             )
-                        }
+                        }*/
 
                         binding.detailCardUvIndex.textViewSunriseTime.text = dailyModel.uv_index_max[0].toString()
 

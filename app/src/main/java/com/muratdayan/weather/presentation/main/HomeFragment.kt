@@ -13,14 +13,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.LocationServices
-import com.muratdayan.weather.R
-import com.muratdayan.weather.core.utils.checkWeatherforImage
+import com.muratdayan.weather.core.common.Resource
 import com.muratdayan.weather.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -30,7 +27,6 @@ import java.time.LocalDateTime
 import java.time.format.TextStyle
 import java.time.temporal.ChronoField
 import java.util.Locale
-import kotlin.math.roundToInt
 
 // handle the UI and business logic of the HomeFragment
 @AndroidEntryPoint
@@ -93,91 +89,25 @@ class HomeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     private fun collectProductState() {
+
         lifecycleScope.launch {
-            homeViewModel.currentWeatherState.collectLatest { currentWeatherState ->
-                when {
-                    currentWeatherState.currentWeatherModel != null -> {
-                        val currentModel = currentWeatherState.currentWeatherModel
-                        binding.textViewDegree.text = currentModel.name
-                        binding.textViewMaxMin.text =
-                            "Max:${currentModel.main.tempMax}  Min:${currentModel.main.tempMin}"
-
-                        binding.textViewPrecipitations.text =
-                            currentModel.weather.first().description
-                        val date = getMonthAndDayFromTimestamp(currentModel.dt)
-                        binding.txtViewTodayDate.text = date
-
-                        currentModel.weather.forEach {
-                            binding.imageViewWeather.setImageResource(it.checkWeatherforImage())
-                        }
+            homeViewModel.currentForecastState.collectLatest { currentForecast->
+                when (currentForecast) {
+                    is Resource.Error ->{
+                        Toast.makeText(requireContext(),currentForecast.msg,Toast.LENGTH_SHORT).show()
                     }
-
-                    currentWeatherState.isLoading -> {
-                        Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_SHORT).show()
+                    is Resource.Idle ->{}
+                    is Resource.Loading -> {
+                        Toast.makeText(requireContext(),"Loading",Toast.LENGTH_SHORT).show()
                     }
-
-                    else -> {
-                        Log.d("failure", "failure ${currentWeatherState.errorMsg}")
+                    is Resource.Success -> {
+                        binding.textViewDegree.text = currentForecast.data?.current?.temperature.toString()
                     }
                 }
+
             }
         }
-        lifecycleScope.launch {
-            homeViewModel.forecastWeatherState.collectLatest { forecastState ->
-                when {
-                    forecastState.forecastModel != null -> {
-                        val forecastModel = forecastState.forecastModel
 
-                        val firstHour = getTimeFromDateTime(forecastModel.forecastList[0].dtTxt)
-                        val secondHour = getTimeFromDateTime(forecastModel.forecastList[1].dtTxt)
-                        val thirdHour = getTimeFromDateTime(forecastModel.forecastList[2].dtTxt)
-                        val fourthHour = getTimeFromDateTime(forecastModel.forecastList[3].dtTxt)
-                        binding.infoCardFirstHourRow.infoCardTxtBottomInfo.text = firstHour
-                        binding.infoCardSecondHourRow.infoCardTxtBottomInfo.text = secondHour
-                        binding.infoCardThirdHourRow.infoCardTxtBottomInfo.text = thirdHour
-                        binding.infoCardFourthHourRow.infoCardTxtBottomInfo.text = fourthHour
-
-                        val firstHourTemp =
-                            "${forecastModel.forecastList[0].main.temp.roundToInt()}°C"
-                        val secondHourTemp =
-                            "${forecastModel.forecastList[1].main.temp.roundToInt()}°C"
-                        val thirdHourTemp =
-                            "${forecastModel.forecastList[2].main.temp.roundToInt()}°C"
-                        val fourthHourTemp =
-                            "${forecastModel.forecastList[3].main.temp.roundToInt()}°C"
-
-                        binding.infoCardFirstHourRow.infoCardTxtTopInfo.text = firstHourTemp
-                        binding.infoCardSecondHourRow.infoCardTxtTopInfo.text = secondHourTemp
-                        binding.infoCardThirdHourRow.infoCardTxtTopInfo.text = thirdHourTemp
-                        binding.infoCardFourthHourRow.infoCardTxtTopInfo.text = fourthHourTemp
-
-                        forecastModel.forecastList.forEach {
-                            it.weatherList.forEach {
-                                binding.infoCardFirstHourRow.imageView2.setImageResource(it.checkWeatherforImage())
-                                binding.infoCardSecondHourRow.imageView2.setImageResource(it.checkWeatherforImage())
-                                binding.infoCardThirdHourRow.imageView2.setImageResource(it.checkWeatherforImage())
-                                binding.infoCardFourthHourRow.imageView2.setImageResource(it.checkWeatherforImage())
-                            }
-                        }
-
-                        binding.btnGoToDetail.setOnClickListener {
-                            val action = HomeFragmentDirections.navigateHomeFragmentToWeatherDetailFragment(forecastModel)
-                            findNavController().navigate(action)
-                        }
-
-                    }
-
-                    forecastState.isLoading -> {
-                        Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_SHORT).show()
-                    }
-
-                    else -> {
-                        Log.d("failure", "failure ${forecastState.error}")
-                    }
-
-                }
-            }
-        }
     }
 
     // check for permission
@@ -198,7 +128,7 @@ class HomeFragment : Fragment() {
         permissionRequest.launch(locationPermissions)
     }
 
-    // Permission result
+// Permission result
 
     private val permissionRequest =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -229,8 +159,7 @@ class HomeFragment : Fragment() {
                 // location info is received
                 Log.d("Konum", "Enlem: $latitude, Boylam: $longitude")
 
-                homeViewModel.getCurrentWeather(latitude, longitude)
-                homeViewModel.getForecastWeather(lat = latitude, lon = longitude)
+                homeViewModel.getCurrentAndHourlyForecast(lat = latitude, lon = longitude)
                 collectProductState()
 
             } else {
