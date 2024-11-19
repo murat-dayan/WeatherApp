@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.kotlinAndroidKsp)
+    alias(libs.plugins.hiltAndroid)
 }
 
 android {
@@ -44,4 +46,20 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Navigation kütüphaneleri eklendi nav_graph sağlıyor bize
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+
+    //Retrofit ve gson
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+
+    // Hilt ve Kapt aracı ile hilt compiler
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
+
+    // lifecycle viewmodel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
 }
