@@ -1,4 +1,4 @@
-package com.muratdayan.cities.presentation
+package com.muratdayan.cities.presentation.cities
 
 import android.os.Bundle
 import android.util.Log
@@ -8,9 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.muratdayan.cities.R
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.muratdayan.cities.core.common.Resource
 import com.muratdayan.cities.databinding.FragmentCitiesBinding
+import com.muratdayan.cities.presentation.adapter.cities.CitiesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -21,6 +22,7 @@ class CitiesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: CitiesViewModel by viewModels()
+    private lateinit var citiesAdapter: CitiesAdapter
 
 
     override fun onCreateView(
@@ -36,6 +38,15 @@ class CitiesFragment : Fragment() {
 
         viewModel.searchCity("Adana")
 
+        citiesAdapter = CitiesAdapter()
+        binding.rvCities.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = citiesAdapter
+        }
+
+
+
         lifecycleScope.launch {
             viewModel.searchedCitiesList.collect{result->
                 when(result){
@@ -49,8 +60,10 @@ class CitiesFragment : Fragment() {
                         Log.d("CitiesFragment", "Loading")
                     }
                     is Resource.Success -> {
-                        Log.d("CitiesFragment", "Success: ${result.data?.cities?.size}")
-                        Log.d("CitiesFragment", "Success: ${result.data?.cities?.get(0)?.name}")
+                        val cityModelResponseList= result.data?.cities
+                        cityModelResponseList?.let { list->
+                            citiesAdapter.updateData(list)
+                        }
                     }
                 }
             }

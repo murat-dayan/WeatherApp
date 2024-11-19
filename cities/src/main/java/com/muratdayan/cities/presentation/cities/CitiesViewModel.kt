@@ -1,4 +1,4 @@
-package com.muratdayan.cities.presentation
+package com.muratdayan.cities.presentation.cities
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
