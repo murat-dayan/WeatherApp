@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.muratdayan.cities.R
 import com.muratdayan.cities.databinding.FragmentCitiesBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class CitiesFragment : Fragment() {
 
     private var _binding: FragmentCitiesBinding? = null

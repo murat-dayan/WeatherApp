@@ -55,7 +55,7 @@ dependencies {
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
 
-    // Hilt ve Kapt aracı ile hilt compiler
+    // Hilt ve Ksp aracı ile hilt compiler
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
