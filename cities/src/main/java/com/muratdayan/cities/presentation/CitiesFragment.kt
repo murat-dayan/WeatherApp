@@ -39,10 +39,17 @@ class CitiesFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.searchedCitiesList.collect{result->
                 when(result){
-                    is Resource.Error -> TODO()
-                    is Resource.Idle -> TODO()
-                    is Resource.Loading -> TODO()
+                    is Resource.Error -> {
+                        Log.d("CitiesFragment", "Error: ${result.msg}")
+                    }
+                    is Resource.Idle -> {
+                        Log.d("CitiesFragment", "Idle")
+                    }
+                    is Resource.Loading -> {
+                        Log.d("CitiesFragment", "Loading")
+                    }
                     is Resource.Success -> {
+                        Log.d("CitiesFragment", "Success: ${result.data?.cities?.size}")
                         Log.d("CitiesFragment", "Success: ${result.data?.cities?.get(0)?.name}")
                     }
                 }
