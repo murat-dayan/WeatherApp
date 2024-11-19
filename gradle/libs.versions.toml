@@ -44,3 +44,4 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref ="hiltVersion" }
 kotlinAndroidKsp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
