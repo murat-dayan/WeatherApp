@@ -36,6 +36,6 @@
         tools:layout="@layout/fragment_weather_detail" />
     <fragment
         android:id="@+id/citiesFragment"
-        android:name="com.muratdayan.cities.presentation.CitiesFragment"
+        android:name="com.muratdayan.cities.presentation.cities.CitiesFragment"
         android:label="CitiesFragment" />
 </navigation>
