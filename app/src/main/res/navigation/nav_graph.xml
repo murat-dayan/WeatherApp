@@ -25,10 +25,17 @@
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true"
             />
+        <action
+            android:id="@+id/action_splashFragment_to_citiesFragment"
+            app:destination="@id/citiesFragment" />
     </fragment>
     <fragment
         android:id="@+id/weatherDetailFragment"
         android:name="com.muratdayan.weather.presentation.weather_detail.WeatherDetailFragment"
         android:label="fragment_weather_detail"
         tools:layout="@layout/fragment_weather_detail" />
+    <fragment
+        android:id="@+id/citiesFragment"
+        android:name="com.muratdayan.cities.presentation.CitiesFragment"
+        android:label="CitiesFragment" />
 </navigation>
