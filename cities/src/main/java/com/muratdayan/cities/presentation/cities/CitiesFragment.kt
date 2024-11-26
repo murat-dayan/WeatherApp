@@ -4,17 +4,18 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.muratdayan.cities.core.common.Resource
+import com.muratdayan.cities.data.remote.mapper.toCityEntity
 import com.muratdayan.cities.databinding.FragmentCitiesBinding
 import com.muratdayan.cities.presentation.adapter.cities.CitiesAdapter
+import com.muratdayan.common.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -41,11 +42,28 @@ class CitiesFragment : Fragment() {
 
         searchCityWithTextWatcher(binding.etSearchCity)
 
-        citiesAdapter = CitiesAdapter()
+        citiesAdapter = CitiesAdapter(){cityModel->
+            viewModel.insertCity(cityModel.toCityEntity())
+        }
         binding.rvCities.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext())
             adapter = citiesAdapter
+        }
+
+        lifecycleScope.launch {
+            viewModel.insertResult.collect{result->
+                when(result){
+                    is Resource.Error -> {
+                        Log.d("CitiesFragmentInsert","Error : ${result.msg ?: "unknown"}")
+                    }
+                    is Resource.Idle -> {}
+                    is Resource.Loading -> {}
+                    is Resource.Success -> {
+                        Log.d("CitiesFragmentInsert","Success : ${result.data}")
+                    }
+                }
+            }
         }
 
 

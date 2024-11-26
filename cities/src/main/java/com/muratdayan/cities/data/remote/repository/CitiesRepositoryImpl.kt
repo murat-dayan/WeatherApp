@@ -1,10 +1,10 @@
 package com.muratdayan.cities.data.remote.repository
 
-import com.muratdayan.cities.core.common.Resource
 import com.muratdayan.cities.data.remote.mapper.toCityResponseModel
 import com.muratdayan.cities.data.remote.service.CitiesService
 import com.muratdayan.cities.domain.model.CityResponseModel
 import com.muratdayan.cities.domain.repository.CitiesRepository
+import com.muratdayan.common.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

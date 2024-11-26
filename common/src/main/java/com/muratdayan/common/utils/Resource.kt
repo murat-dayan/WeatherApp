@@ -1,4 +1,4 @@
-package com.muratdayan.weather.core.common
+package com.muratdayan.common.utils
 
 
 // bu sınıf api'den dönen verileri temsil edecek

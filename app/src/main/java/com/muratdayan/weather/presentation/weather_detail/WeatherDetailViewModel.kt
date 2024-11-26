@@ -2,7 +2,7 @@ package com.muratdayan.weather.presentation.weather_detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.muratdayan.weather.core.common.Resource
+import com.muratdayan.common.utils.Resource
 import com.muratdayan.weather.domain.use_cases.GetDailyForecastUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

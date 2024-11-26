@@ -1,6 +1,6 @@
 package com.muratdayan.weather.domain.repository
 
-import com.muratdayan.weather.core.common.Resource
+import com.muratdayan.common.utils.Resource
 import com.muratdayan.weather.domain.models.CurrentWeatherModel
 import com.muratdayan.weather.domain.models.DailyModel
 import kotlinx.coroutines.flow.Flow

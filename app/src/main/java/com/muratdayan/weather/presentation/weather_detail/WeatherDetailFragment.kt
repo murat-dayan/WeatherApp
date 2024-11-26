@@ -75,6 +75,7 @@ class WeatherDetailFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun collectProductState() {
         lifecycleScope.launch {
             weatherDetailViewModel.dailyModelState.collectLatest { dailyModelState ->

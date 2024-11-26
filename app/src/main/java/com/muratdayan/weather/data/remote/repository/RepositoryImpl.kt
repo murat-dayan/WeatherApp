@@ -1,6 +1,6 @@
 package com.muratdayan.weather.data.remote.repository
 
-import com.muratdayan.weather.core.common.Resource
+import com.muratdayan.common.utils.Resource
 import com.muratdayan.weather.data.remote.mappers.toCurrentWeatherModel
 import com.muratdayan.weather.data.remote.mappers.toDailyModel
 import com.muratdayan.weather.data.remote.services.OpenMeteoService

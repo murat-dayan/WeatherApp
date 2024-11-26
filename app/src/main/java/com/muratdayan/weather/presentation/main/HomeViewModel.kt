@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.location.LocationServices
-import com.muratdayan.weather.core.common.Resource
+import com.muratdayan.common.utils.Resource
 import com.muratdayan.weather.domain.models.CurrentWeatherModel
 import com.muratdayan.weather.domain.use_cases.GetCurrentAndHourlyForecastUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
