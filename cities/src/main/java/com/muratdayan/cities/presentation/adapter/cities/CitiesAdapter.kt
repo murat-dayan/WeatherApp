@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.muratdayan.cities.databinding.ItemCityBinding
 import com.muratdayan.cities.domain.model.CityModel
 
-class CitiesAdapter : RecyclerView.Adapter<CitiesViewHolder>() {
+class CitiesAdapter(
+    private val onAddCityClicked: (CityModel) -> Unit
+) : RecyclerView.Adapter<CitiesViewHolder>() {
 
     private var cityModelList: List<CityModel> = emptyList()
 
@@ -20,7 +22,7 @@ class CitiesAdapter : RecyclerView.Adapter<CitiesViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CitiesViewHolder {
         val binding = ItemCityBinding.inflate(LayoutInflater.from(parent.context),parent,false)
-        return CitiesViewHolder(binding)
+        return CitiesViewHolder(binding,onAddCityClicked)
     }
 
     override fun getItemCount(): Int {
