@@ -25,7 +25,7 @@ class SplashFragment : Fragment() {
         _binding = FragmentSplashBinding.inflate(inflater, container, false)
 
         binding.btnGetStarted.setOnClickListener {
-            findNavController().navigate(R.id.action_splashFragment_to_citiesFragment)
+            findNavController().navigate(R.id.navigate_splashFragment_to_homeFragment)
         }
         return binding.root
     }

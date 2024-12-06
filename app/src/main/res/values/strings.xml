@@ -14,4 +14,7 @@
     <string name="sunrise">SUNRISE</string>
     <string name="_5_28_am">5:28 AM</string>
     <string name="sunset_7_25pm">Sunset: 7.25PM</string>
+    <string name="map">Map</string>
+    <string name="add_city">Add City</string>
+    <string name="city_list">City List</string>
 </resources>
