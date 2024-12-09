@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     fun bottomNav(){
         val bottomNavigationView = binding.bottomNavigationView
+        bottomNavigationView.setSelectedItemId(R.id.invisible)
 
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
 
