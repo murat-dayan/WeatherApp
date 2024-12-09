@@ -8,152 +8,325 @@
     android:background="@drawable/home_bg"
     tools:context=".presentation.main.HomeFragment">
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView_weather"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:contentDescription="@string/weather"
-            android:src="@drawable/rainy_sunny_cloud" />
-
-        <TextView
-            android:id="@+id/textView_degree"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
-            android:gravity="center"
-            android:text="@string/_19"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="40sp" />
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView_precipitations"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
-            android:text="@string/precipitations"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/imageView_weather"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:contentDescription="@string/weather"
+                android:src="@drawable/rainy_sunny_cloud" />
 
-        <TextView
-            android:id="@+id/textView_max_min"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
-            android:text="@string/max_24_min_18"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/textView_degree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:text="@string/_19"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="40sp" />
 
-        <ImageView
-            android:id="@+id/imageView_house"
-            android:layout_width="250dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            android:src="@drawable/house" />
+            <TextView
+                android:id="@+id/txtViewLocalArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_regular"
+                android:gravity="center"
+                android:text="@string/title_location"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="30dp">
+            <TextView
+                android:id="@+id/textView_precipitations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/precipitations"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView_max_min"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:text="@string/max_24_min_18"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/imageView_house"
+                android:layout_width="250dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:src="@drawable/house" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewToHour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="30dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/cardview_bg"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="45dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingVertical="5dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/open_sans_semi_bold"
+                            android:text="@string/today"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/txtViewTodayDate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="20dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/open_sans_semi_bold"
+                            android:text="@string/july_21"
+                            android:textAlignment="viewEnd"
+                            android:textColor="@color/white" />
+
+                    </LinearLayout>
+
+
+                    <ImageView
+                        android:id="@+id/imageView_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/line" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingVertical="20dp">
+
+                        <include
+                            android:id="@+id/infoCardFirstHourRow"
+                            layout="@layout/info_card_column" />
+
+                        <include
+                            android:id="@+id/infoCardSecondHourRow"
+                            layout="@layout/info_card_column" />
+
+                        <include
+                            android:id="@+id/infoCardThirdHourRow"
+                            layout="@layout/info_card_column" />
+
+                        <include
+                            android:id="@+id/infoCardFourthHourRow"
+                            layout="@layout/info_card_column" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/txtViewDaysForecasts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/open_sans_bold"
+                android:text="7-Days Forecasts"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:gravity="center" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/cardview_bg"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="45dp"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingVertical="5dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/open_sans_semi_bold"
-                        android:text="@string/today"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:id="@+id/txtViewTodayDate"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:layout_weight="1"
-                        android:fontFamily="@font/open_sans_semi_bold"
-                        android:text="@string/july_21"
-                        android:textAlignment="viewEnd"
-                        android:textColor="@color/white" />
-
-                </LinearLayout>
-
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                android:padding="8dp">
 
                 <ImageView
-                    android:id="@+id/imageView_line"
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/line" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/imgViewRvLeftIcon"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_chevron_left" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvForecasts"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:orientation="horizontal"
-                    android:paddingVertical="20dp">
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/forecast_row" />
 
-                    <include
-                        android:id="@+id/infoCardFirstHourRow"
-                        layout="@layout/info_card_column" />
+                <ImageView
+                    android:id="@+id/imgViewRvRightIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_chevron_right" />
+            </LinearLayout>
 
-                    <include
-                        android:id="@+id/infoCardSecondHourRow"
-                        layout="@layout/info_card_column" />
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="40dp"
+                app:cardCornerRadius="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvForecasts">
 
-                    <include
-                        android:id="@+id/infoCardThirdHourRow"
-                        layout="@layout/info_card_column" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/cardview_bg"
+                    android:elevation="5dp">
 
-                    <include
-                        android:id="@+id/infoCardFourthHourRow"
-                        layout="@layout/info_card_column" />
+                    <TextView
+                        android:id="@+id/txtViewAirQuality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/open_sans_regular"
+                        android:text="AIR QUALITY"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imgViewPlusIcon"
+                        app:layout_constraintStart_toEndOf="@+id/imgViewPlusIcon"
+                        app:layout_constraintTop_toTopOf="@+id/imgViewPlusIcon" />
 
+                    <ImageView
+                        android:id="@+id/imgViewPlusIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="26dp"
+                        android:src="@drawable/ic_plus_circle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/txtViewLowHealthRisk"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:fontFamily="@font/open_sans_semi_bold"
+                        android:text="3-Low Health Risk"
+                        android:textColor="@color/white"
+                        android:textSize="28sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/imgViewPlusIcon"
+                        app:layout_constraintTop_toBottomOf="@+id/imgViewPlusIcon" />
 
+                    <ImageView
+                        android:id="@+id/imageView_line2"
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/line"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtViewLowHealthRisk" />
+
+                    <TextView
+                        android:id="@+id/txtViewSeeMore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="26dp"
+                        android:fontFamily="@font/open_sans_semi_bold"
+                        android:text="See More"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/imageView_line2"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView_line2" />
+
+                    <ImageView
+                        android:id="@+id/imgViewSeeMpreIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="26dp"
+                        android:src="@drawable/ic_chevron_right"
+                        app:layout_constraintBottom_toBottomOf="@+id/txtViewSeeMore"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/txtViewSeeMore" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@+id/cardView"
+                app:layout_constraintHorizontal_bias="0.538"
+                app:layout_constraintStart_toStartOf="@+id/cardView"
+                app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+                <include
+                    android:id="@+id/detailCard_Sunrise"
+                    layout="@layout/detail_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/detailCard_UvIndex"
+                    layout="@layout/detail_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp" />
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btnGoToDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="38dp"
-        android:text="btnGoTo dEtail"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

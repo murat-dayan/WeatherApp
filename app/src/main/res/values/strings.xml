@@ -18,4 +18,9 @@
     <string name="start_item">Default item for the start situation</string>
     <string name="city_list">City List</string>
     <string name="image_weather_situation">image to show weather situation</string>
+    <string name="title_location">North America</string>
+    <string name="_7_days_forecasts">7-Days Forecasts</string>
+    <string name="left_icon">left icon</string>
+    <string name="right_icon">right icon</string>
+    <string name="days_forecasts">7-Days Forecasts</string>
 </resources>
