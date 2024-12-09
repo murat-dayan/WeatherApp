@@ -6,14 +6,7 @@
         android:id="@+id/mapFragment"
         android:icon="@drawable/ic_location"
         android:title="@string/map"
-        app:showAsAction="always">
-    </item>
-
-    <item
-        android:id="@+id/AddCityFragment"
-        android:icon="@drawable/ic_plus_circle"
-        android:title="@string/add_city"
-        app:showAsAction="always">
+        app:showAsAction="ifRoom">
     </item>
 
     <item
