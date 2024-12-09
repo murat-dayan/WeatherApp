@@ -10,7 +10,7 @@
     </item>
 
     <item
-        android:id="@+id/CityListFragment"
+        android:id="@+id/cityListFragment"
         android:icon="@drawable/ic_menu"
         android:title="@string/city_list"
         app:showAsAction="always">

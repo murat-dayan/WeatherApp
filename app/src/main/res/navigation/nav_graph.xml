@@ -13,6 +13,12 @@
         <action
             android:id="@+id/navigate_homeFragment_to_weatherDetailFragment"
             app:destination="@id/weatherDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_cityListFragment"
+            app:destination="@id/cityListFragment" />
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
@@ -38,4 +44,14 @@
         android:id="@+id/citiesFragment"
         android:name="com.muratdayan.cities.presentation.cities.CitiesFragment"
         android:label="CitiesFragment" />
+    <fragment
+        android:id="@+id/cityListFragment"
+        android:name="com.muratdayan.weather.presentation.city_list.CityListFragment"
+        android:label="fragment_city_list"
+        tools:layout="@layout/fragment_city_list" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.muratdayan.weather.presentation.map.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
 </navigation>
