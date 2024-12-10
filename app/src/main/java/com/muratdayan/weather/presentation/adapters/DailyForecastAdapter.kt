@@ -29,18 +29,19 @@ class DailyForecastAdapter(
     }
 
     override fun getItemCount(): Int {
-        return dailyModel.time.size
+        return dailyModel.temperatures.size
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ForecastRowHolder, position: Int) {
-        val time = dailyModel.time[position]
+
         val temperature = dailyModel.temperatures[position]
 
-        val day = getDayNameAbbreviation(time)
+        /*val time = dailyModel.time[position]
+        val day = getDayNameAbbreviation(time)*/
 
         holder.binding.forecastRowInfoCard.infoCardTxtTopInfo.text = temperature.toString()
-        holder.binding.forecastRowInfoCard.infoCardTxtBottomInfo.text = day
+        /*holder.binding.forecastRowInfoCard.infoCardTxtBottomInfo.text = day*/
 
         /*forecastModel.forecastList.forEach {
             it.weatherList.forEach {

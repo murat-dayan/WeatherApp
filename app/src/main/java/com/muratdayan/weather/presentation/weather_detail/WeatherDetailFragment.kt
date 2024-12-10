@@ -82,7 +82,7 @@ class WeatherDetailFragment : Fragment() {
                 when {
                     dailyModelState.dailymodel != null -> {
                         val dailyModel = dailyModelState.dailymodel
-                        println(dailyModel.time[0])
+                        //println(dailyModel.time[0])
                         /*forecastModel?.let {
                             binding.rvForecasts.adapter = DailyForecastAdapter(
                                 dailyModel,

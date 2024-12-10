@@ -303,12 +303,10 @@
                 android:id="@+id/linearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="36dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="@+id/cardView"
-                app:layout_constraintHorizontal_bias="0.538"
-                app:layout_constraintStart_toStartOf="@+id/cardView"
-                app:layout_constraintTop_toBottomOf="@+id/cardView">
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
 
                 <include
                     android:id="@+id/detailCard_Sunrise"

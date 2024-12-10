@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.LocationServices
 import com.muratdayan.common.utils.Resource
 import com.muratdayan.weather.databinding.FragmentHomeBinding
+import com.muratdayan.weather.domain.models.DailyModel
+import com.muratdayan.weather.presentation.adapters.DailyForecastAdapter
 import com.muratdayan.weather.presentation.weather_detail.WeatherDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -46,6 +48,8 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels()
     private val weatherDetailViewModel: WeatherDetailViewModel by viewModels()
 
+    private lateinit var dailyForecastAdapter: DailyForecastAdapter
+
 
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -71,6 +75,14 @@ class HomeFragment : Fragment() {
         binding.rvForecasts.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.rvForecasts.isNestedScrollingEnabled = false
+
+        val dailyModel = DailyModel(
+            temperatures = listOf(10.2, 12.5, 15.8, 18.1, 20.4, 22.7, 25.0),
+            uv_index_max = listOf(1.2, 2.5, 3.8, 4.1,3.4, 2.7, 1.0)
+        )
+
+        dailyForecastAdapter = DailyForecastAdapter(dailyModel)
+        binding.rvForecasts.adapter = dailyForecastAdapter
 
         weatherDetailViewModel.getDailyForecastWeather(52.52, 13.41)
         collectProductStateDetail()
@@ -122,7 +134,7 @@ class HomeFragment : Fragment() {
                 when {
                     dailyModelState.dailymodel != null -> {
                         val dailyModel = dailyModelState.dailymodel
-                        println(dailyModel.time[0])
+                        //println(dailyModel.time[0])
                         /*forecastModel?.let {
                             binding.rvForecasts.adapter = DailyForecastAdapter(
                                 dailyModel,
